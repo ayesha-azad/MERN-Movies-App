@@ -1,0 +1,58 @@
+services:
+  react-app: 
+    build: ./frontend 
+    container_name: frontend_movies
+    ports: 
+      - "5174:80"
+    networks: 
+      - movies-net 
+    depends_on: 
+      - backend_movies 
+
+  backend_movies:
+    build: ./backend
+    container_name: backend_movies
+    ports:
+      - "3005:3000"  
+    environment: 
+      POST: 3000
+      MONGO_URI: mongodb://root:example@mongo:27017/movies_db?authSource=admin
+      NODE_ENV: 'development'
+      JWT_SECRET: alskdfjlkasdfjlksa23123asdlfk
+    networks:
+      - movies-net
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo 
+    restart: always 
+    container_name: mongo
+    volumes: 
+      - movies-data:/data/db
+    ports: 
+      - "27018:27017" 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks: 
+      - movies-net 
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    container_name: mongo_express
+    ports: 
+      - "8082:8081"
+    environment: 
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/movies_db?authSource=admin
+    networks: 
+      - movies-net 
+    depends_on: 
+      - mongo
+
+volumes:
+  movies-data:
+
+networks:
+  movies-net:
