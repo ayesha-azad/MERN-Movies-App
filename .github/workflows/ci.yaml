@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Use Node.js Action for Frontend
         uses: ./.github/actions/action.yaml
         with:
@@ -16,6 +19,9 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       - name: Use Node.js Action for Backend
         uses: ./.github/actions/action.yaml
@@ -41,16 +47,22 @@ jobs:
         run: docker compose build 
         shell: bash
         working-directory: ${{ github.workspace }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Push Image
         run: docker compose push
         shell: bash
         working-directory: ${{ github.workspace }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Run Containers
         run: docker compose up -d
         shell: bash
         working-directory: ${{ github.workspace }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       
 
