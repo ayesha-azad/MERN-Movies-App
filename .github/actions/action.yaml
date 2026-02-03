@@ -2,13 +2,13 @@ name: Action for Node Projects
 description: 'A reusable GitHub Action to set up Node.js, install dependencies, and build the project.'
 
 inputs:
-  working-directory:
+  working-dir:
     description: 'The working directory of the Node project'
     required: true
     default: '.'
 
 runs: 
-  using: composite
+  using: 'composite'
   steps:
     - name: Checkout Code
       uses: actions/checkout@v4
@@ -18,13 +18,14 @@ runs:
       with:
         node-version: '20'
         cache: 'npm'
-
+        cache-dependency-path: ${{ inputs.working-dir }}/package-lock.json
+        
     - name: Install Dependencies
       run: npm ci
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: ${{ inputs.working-dir }}
       shell: bash
 
     - name: Build Project
       run: npm run build
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: ${{ inputs.working-dir }}
       shell: bash
