@@ -6,6 +6,9 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Use Node.js Action for Frontend
         uses: ./.github/actions/action.yaml
         with:
@@ -14,6 +17,9 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
       - name: Use Node.js Action for Backend
         uses: ./.github/actions/action.yaml
         with:
