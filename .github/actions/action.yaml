@@ -1,21 +1,20 @@
 name: Action for Node Projects
-description: 'A reusable GitHub Action to set up Node.js, install dependencies, and build the project.'
+description: "A reusable GitHub Action to set up Node.js, install dependencies, and build the project."
 
 inputs:
   working-dir:
-    description: 'The working directory of the Node project'
+    description: "The working directory of the Node project"
     required: true
-    default: '.'
+    default: "."
 
-runs: 
-  using: 'composite'
+runs:
+  using: "composite"
   steps:
-
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
-        cache: 'npm'
+        node-version: "20"
+        cache: "npm"
         cache-dependency-path: ${{ inputs.working-dir }}/package-lock.json
 
     - name: Install Dependencies
